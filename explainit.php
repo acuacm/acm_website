@@ -1,14 +1,7 @@
 <?php
-    if(isset($_POST)('submit')) {
-        $privatekey = '6LfNfh8TAAAAAH-ORcX5gRE8Zr_0saCBrjssEZDl";'
-        $response = $_POST['g-recaptcha-response'];
-        $userip = $_SERVER['REMOTE_ADDR'];
-        $url = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$privatekey&response=$repsonse&remoteip=$remoteip");
-        $result = json_decode($url, TRUE);
-        
-        if($result['success'] == 1) {
-            echo $_POST['question'];
-        }
+    if(isset($_POST['submit'])){
+        $message = "Question: \n\n" . $_POST['question'];
+        mail('acm@groupmail.acu.edu','Explain It',$message, 'From: explainit@wildcatacm.org');
     }
 ?>
 
@@ -16,6 +9,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,7 +30,7 @@
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-    
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -44,9 +38,6 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 	
-    <!-- reCaptcha -->
-    <script src='https://www.google.com/recaptcha/api.js'></script>
-    
 	<!-- Official Colors
 			
 			Light Blue:	#515DFF
@@ -70,8 +61,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-				<a href="./index.html"><img class="img-responsive" src="img/acmlogo_small.png" alt="ACM logo"></a>
+                <a href="./index.html"><img class="img-responsive" src="img/acmlogo_small.png" alt="ACM logo"></a>
             </div>
+            
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
@@ -80,27 +72,21 @@
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Projects <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li>
-								<a href="./under_construction.html">Example 1</a>
-							</li>
-							<li>
-								<a href="./under_construction.html">Example 2</a>
-							</li>
-							<li>
-								<a href="./under_construction.html">Example 3</a>
+								<a href="./under_construction.html">Project Minerva</a>
 							</li>
 						</ul>
 					</li>
                     <li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Contests <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="./pcs_2016.html">Spring 2016</a></li>
+							<li><a href="./pc_2016spring.html">Spring 2016</a></li>
 						</ul>
 					</li>
-					<li><a href="./under_construction.html">Calendar</a></li>
-					<li class="active"><a href="./explainit.html">Explain It</a></li>
+					<li><a href="./calendar.html">Calendar</a></li>
+					<li class="active"><a href="./explainit.php">Explain It</a></li>
 					<li><a href="./bylaws.html">Bylaws</a></li>
 					<li><a href="./about.html">About & Contact</a></li>
-					<li><a href="./join.html">Join</a></li>
+					<li><a href="./join.php">Join</a></li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -111,7 +97,7 @@
     <!-- Page Content -->
 	
     <div class="content-section-a spacer-top">
-
+    
         <div class="container">
             <div class="row">
 				<div class="col-lg-12">
@@ -121,21 +107,22 @@
 			<div class="row">
                 <div class="col-lg-12">
 					<p class="lead">Explain It is a question-answer system. Ask ACM about computers, science, the club, or whatever you want and we will answer them as best we can.</p>
+                    
+                    <?php 
+                        if(isset($_POST['submit'])){
+                            echo '<p class="lead">Your question has been sent! We will answer it as soon as possible.</p>';
+                        } 
+                    ?>
                 </div>
-                <div class="col-lg-12">
-					<h4 class="dark-grey">Ask us a question</h4>
-				</div>
 			
 				<div class="col-lg-12">
-					<form class="form-group" action="" method="post">
-                        <textarea class="form-control" name="question" id="exampleTextarea" rows="3"></textarea>
+					<form action="explainit.php" method="post">
+                        <fieldset class="form-group">
+                            <textarea class="form-control" type="text" name="question" id="exampleTextarea" placeholder="Ask a question" rows="3"></textarea>
+                        </fieldset>
                         
-                        <br>
-                        <div class="g-recaptcha" data-sitekey="6LfNfh8TAAAAAPpwTwbRUAP1eNuyUbNustUJk75G"></div>
-                        <br>
-                        
-                        <input type="submit" name="submit" value="Ask" class="btn btn-primary">
-					</form>
+                        <button type="submit" name="submit" class="btn btn-primary">Send</button>
+                    </form>
 				</div>
 					
             </div>
@@ -153,7 +140,7 @@
                     <h3>Frequently Asked</h3>
                     <hr>
 
-                    <p>When and where do you meet?<br>We meet on Tuesdays at 7pm in MBB 316.</p>
+                    <p>When and where do you meet?<br>We meet on Thursdays from 4:30pm to 5:30pm in MBB 316.</p>
                     <hr>
                     
                     <p>Is ACM for CS majors only?<br>ACM is for anyone interested in computers, software, design, or graphics. All majors are invited.</p>
@@ -202,13 +189,13 @@
 				<div class="banner-social-buttons text-center">
 					<ul class="list-inline">
 						<li>
-							<a href="#" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i></a> <!-- When we get a twitter -->
+							<a href="https://twitter.com/wildcatacm" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i></a> <!-- Twitter -->
 						</li>
 						<li>
-							<a href="#" class="btn btn-default btn-lg"><i class="fa fa-facebook fa-fw"></i></a> <!-- When we get a facebook -->
+							<a href="https://www.facebook.com/wildcatacm/" class="btn btn-default btn-lg"><i class="fa fa-facebook fa-fw"></i></a> <!-- Facebook -->
 						</li>
 						<li>
-							<a href="#" class="btn btn-default btn-lg"><i class="fa fa-youtube fa-fw"></i></a> <!-- When we get a youtube -->
+							<a href="https://acuacm.slack.com/messages/social/" class="btn btn-default btn-lg"><i class="fa fa-slack fa-fw"></i></a> <!-- Slack -->
 						</li>
 					</ul>
 				</div>
